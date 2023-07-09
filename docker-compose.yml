@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - 1337:80
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=main
+      - MYSQL_USER=main
+      - MYSQL_PASSWORD=main
+      - MYSQL_ROOT_PASSWORD=main
+      - MYSQL_LOG_BIN=ON
+      - MYSQL_BINLOG_FORMAT=MIXED
+      - MYSQL_MAX_BINLOG_SIZE=10M
+      - MYSQL_MAX_BINLOG_FILES=1
+    volumes:
+      - /tmp/app/mysqld:/var/run/mysqld
+      - mysql-data:/var/lib/mysql
+  app:
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - /tmp/app/mysqld:/run/mysqld
+      - static_volume:/app/static
+      - media_volume:/app/media
+    depends_on:
+          - db
+          - redis
+  redis:
+    image: redis:alpine
+
+  
+volumes:
+  static_volume:
+  media_volume:
+  mysql-data:
+    driver: local
