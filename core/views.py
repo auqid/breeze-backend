@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from core.tasks import load_data
-from core.models import BreezeAccount
+from core.tasks import load_data,get_master_data
+from core.models import BreezeAccount,Exchanges
 import urllib
 # Create your views here.
 
@@ -17,6 +17,8 @@ def get_access_code(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def test(request):
-    load_data.delay()
+def setup(request):
+    get_master_data()
+    for exc in Exchanges.objects.all():
+        load_data.delay(exc.id)
     return Response({"working":"fine"})

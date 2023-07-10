@@ -1,7 +1,7 @@
 from breeze_connect import BreezeConnect
 from core.models import BreezeAccount
-from main.settings import BREEZE_SESSION
-
+from datetime import datetime
+from core.helper import date_parser
 class BreezeSession():
     def __init__(self):
         #if BREEZE_SESSION is None:
@@ -11,7 +11,8 @@ class BreezeSession():
         #BREEZE_SESSION = self.breeze
         #else:
            #self.breeze = BREEZE_SESSION
-    
+        
+
     def websocket_start(self):
         self.breeze.ws_connect()
         def on_ticks(ticks):
