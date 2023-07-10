@@ -30,35 +30,3 @@ class BreezeSession():
 
 
 
-""" # Initialize SDK
-breeze = BreezeConnect(api_key="9D0l477St3656309C2970878F$707K5Y")
-
-# Obtain your session key from https://api.icicidirect.com/apiuser/login?api_key=9D0l477St3656309C2970878F$707K5Y
-# Incase your api-key has special characters(like +,=,!) then encode the api key before using in the url as shown below.
-import urllib
-print("https://api.icicidirect.com/apiuser/login?api_key="+urllib.parse.quote_plus("9D0l477St3656309C2970878F$707K5Y"))
-
-
-session_token = "15057684"
-# Generate Session
-breeze.generate_session(api_secret="Z9R5=441o98gmB74I635650547m25N77",
-                        session_token=session_token)
-
-
-breeze.ws_connect()
-
-def on_ticks(ticks):
-    #print("Ticks: {}".format(ticks))
-    print("--------------------------------")
-    print(ticks)
-    print("--------------------------------")
-
-breeze.on_ticks = on_ticks
-
-
-
-breeze.subscribe_feeds(stock_token="4.1!NIFTY 50")
-breeze.subscribe_feeds(stock_token="4.1!42697")
-
-instruments = breeze.get_names(exchange_code="NFO", stock_code="NIFTY 50")
-print(instruments) """
