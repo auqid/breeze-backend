@@ -29,7 +29,7 @@ def get_master_data():
         #print("File:", extracted_file[:3])
         ins = Exchanges.objects.filter(title=extracted_file[:3])
         if ins.exists():
-            ins.update(file=extracted_file)
+            ins.update(file='extracted/'+extracted_file)
         else:#first time
             title = extracted_file[:3]
             if title == 'BSE':
