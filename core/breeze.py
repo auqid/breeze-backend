@@ -11,17 +11,6 @@ class BreezeSession():
         #BREEZE_SESSION = self.breeze
         #else:
            #self.breeze = BREEZE_SESSION
-        
-
-    def websocket_start(self):
-        self.breeze.ws_connect()
-        def on_ticks(ticks):
-            print("--------------------------------")
-            print(ticks)
-            print("--------------------------------")
-        self.breeze.on_ticks = on_ticks
-        self.breeze.subscribe_feeds(stock_token="4.1!NIFTY 50")
-        self.breeze.subscribe_feeds(stock_token="4.1!42697")
     
     def get_data(self):
         data = self.breeze.get_historical_data_v2('1minute','2023-07-01T07:00:00.000Z','2023-07-10T07:00:00.000Z','NIFTY','NSE')

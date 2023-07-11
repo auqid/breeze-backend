@@ -3,5 +3,6 @@ from core import views
 
 urlpatterns = [
     path("setup/", views.setup,name="setup"),
-    path("access_code/", views.get_access_code,name="access_code"),
+    path("access/", views.get_access_code,name="access"),
+    path("list/", views.item_list,name="ticks"),
 ]

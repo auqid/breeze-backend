@@ -41,3 +41,11 @@ class Instrument(models.Model):
     def __str__(self):
         return "Token:"+str(self.token) +" Instrument:"+ str(self.instrument) +" Expiry:"+\
               str(self.expiry)+" Strike Price"+str(self.strike_price)
+    
+class Tick(models.Model):
+    stock_token = models.CharField(blank=True,null=True,max_length=255)
+    ltp = models.FloatField(blank=True,null=True)
+    date = models.DateTimeField(blank=True,null=True)
+
+    def __str__(self) -> str:
+        return f'Name:{self.stock_token}| LTP:{self.ltp} | TimeStamp:{self.date}'

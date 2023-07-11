@@ -3,10 +3,15 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from core.tasks import load_data,get_master_data
-from core.models import BreezeAccount,Exchanges
+from core.models import BreezeAccount,Exchanges,Tick
 import urllib
 # Create your views here.
 
+
+def item_list(request):
+    items = Tick.objects.all().order_by('-date')  
+    context = {'items': items[:50]}
+    return render(request, 'test.html', context)
 
 
 @api_view(['GET'])

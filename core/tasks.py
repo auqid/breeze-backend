@@ -6,8 +6,9 @@ import urllib.request
 from main.settings import MEDIA_ROOT
 from celery.utils.log import get_task_logger
 from celery import shared_task
-from core.models import Exchanges,Instrument
+from core.models import Exchanges,Instrument,Tick
 from datetime import datetime
+from core.breeze import BreezeSession
 logger = get_task_logger(__name__)
 
 
@@ -102,3 +103,20 @@ def load_data(id):
         Instrument.objects.bulk_create(ch)
 
 
+@shared_task(name='websocket')
+def websocket_start():
+    sess = BreezeSession()
+    sess.breeze.ws_connect()
+
+    def on_ticks(ticks):
+        tick_handler.delay(ticks)
+
+    sess.breeze.on_ticks = on_ticks
+    sess.breeze.subscribe_feeds(stock_token="4.1!NIFTY 50")
+    sess.breeze.subscribe_feeds(stock_token="4.1!42697")
+
+@shared_task(name='tick_handler')
+def tick_handler(ticks):
+    date = datetime.strptime(ticks['ltt'], '%a %b %d %H:%M:%S %Y')
+    tick = Tick(stock_token=ticks['symbol'],ltp=ticks['last'],date=date)
+    tick.save()
